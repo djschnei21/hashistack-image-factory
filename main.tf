@@ -72,7 +72,7 @@ data "nomad_plugin" "efs" {
   wait_for_healthy = true
 }
 
-resource "nomad_csi_volume_registration" "mysql_volume" {
+resource "nomad_csi_volume_registration" "jenkins" {
   depends_on = [data.nomad_plugin.efs]
 
   plugin_id   = "aws-efs0"
