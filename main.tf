@@ -73,7 +73,7 @@ data "nomad_plugin" "efs" {
 }
 
 resource "nomad_csi_volume_registration" "mysql_volume" {
-  depends_on = [data.nomad_plugin.ebs]
+  depends_on = [data.nomad_plugin.efs]
 
   plugin_id   = "aws-efs0"
   volume_id   = "jenkins_volume"
