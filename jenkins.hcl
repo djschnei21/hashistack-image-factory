@@ -17,11 +17,13 @@ job "jenkins" {
 
     network {
         mode = "bridge"
-        http {
-            port = 8080
+        port "http" {
+            static = 8080
+            to     = 8080
         }
-        jnlp {
-            port = 51000
+        port "jnlp" {
+            static = 51000
+            to     = 51000
         }
     }
 
