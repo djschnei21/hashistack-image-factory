@@ -61,6 +61,8 @@ provider "nomad" {
 
 resource "aws_efs_file_system" "jenkins" {
   creation_token = "jenkins"
+  encrypted      = true
+
 
   tags = {
     Name = "Jenkins"
@@ -90,9 +92,15 @@ resource "nomad_csi_volume_registration" "jenkins" {
   }
 }
 
-# resource "nomad_job" "jenkins" {
-#   jobspec = file("${path.module}/jenkins.hcl")
-# }
+resource "nomad_job" "jenkins" {
+  jobspec = file("${path.module}/jenkins.hcl")
+
+  hcl2 {
+    vars = {
+      jenkins_efs = nomad_csi_volume_registration.jenkins.volume_id
+    }
+  }
+}
 
 
 
