@@ -86,10 +86,6 @@ resource "nomad_csi_volume_registration" "jenkins" {
     access_mode     = "multi-node-multi-writer"
     attachment_mode = "file-system"
   }
-
-  mount_options {
-    fs_type = "ext4"
-  }
 }
 
 resource "nomad_job" "jenkins" {
