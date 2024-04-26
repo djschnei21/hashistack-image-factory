@@ -86,6 +86,8 @@ resource "nomad_csi_volume_registration" "jenkins" {
     access_mode     = "multi-node-multi-writer"
     attachment_mode = "file-system"
   }
+  capacity_max = "10G"
+  capacity_min = "1M"
 }
 
 resource "nomad_job" "jenkins" {
