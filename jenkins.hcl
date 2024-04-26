@@ -15,6 +15,16 @@ job "jenkins" {
       source    = var.jenkins_efs
     }
 
+    network {
+        mode = "bridge"
+        http {
+            port = 8080
+        }
+        jnlp {
+            port = 51000
+        }
+    }
+
     task "jenkins" {
       driver = "docker"
 
@@ -22,15 +32,6 @@ job "jenkins" {
         volume      = "jenkins_home"
         destination = "/var/jenkins_home"
         read_only   = false
-      }
-
-      network {
-        mode = "bridge"
-        http {
-          port = 8080
-        }
-        jnlp {
-          port = 51000
       }
 
       config {
