@@ -31,6 +31,10 @@ job "jenkins" {
       resources {
         cpu    = 500
         memory = 512
+        network {
+          port "http" {}
+          port "jnlp" {}
+        }
       }
 
       service {
