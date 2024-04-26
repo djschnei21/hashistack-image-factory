@@ -69,6 +69,12 @@ resource "aws_efs_file_system" "jenkins" {
   }
 }
 
+resource "aws_efs_mount_target" "jenkins" {
+  file_system_id  = aws_efs_file_system.jenkins.id
+  subnet_id       = "subnet-0436d65f854f77ac6"  // replace with your subnet id
+  security_groups = ["sg-08d973af47615a208"] // replace with your security group
+}
+
 data "nomad_plugin" "efs" {
   plugin_id        = "aws-efs0"
   wait_for_healthy = true
