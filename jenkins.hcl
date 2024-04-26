@@ -5,6 +5,7 @@ variable "jenkins_efs" {
 job "jenkins" {
   datacenters = ["dc1"]
   type        = "service"
+  node_pool   = "x86"
 
   group "jenkins" {
     count = 1
