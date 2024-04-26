@@ -24,6 +24,15 @@ job "jenkins" {
         read_only   = false
       }
 
+      network {
+        mode = "bridge"
+        http {
+          port = 8080
+        }
+        jnlp {
+          port = 51000
+      }
+
       config {
         image = "jenkins/jenkins:latest"
       }
@@ -31,10 +40,6 @@ job "jenkins" {
       resources {
         cpu    = 500
         memory = 512
-        network {
-          port "http" {}
-          port "jnlp" {}
-        }
       }
 
       service {
