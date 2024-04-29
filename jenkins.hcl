@@ -49,6 +49,8 @@ job "jenkins" {
         memory = 512
       }
 
+      user = "jenkins"
+
       service {
         name = "jenkins"
         port = "http"
