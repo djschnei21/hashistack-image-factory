@@ -94,7 +94,6 @@ resource "nomad_csi_volume_registration" "jenkins" {
   }
 
   parameters = {
-    file_system_id = aws_efs_file_system.jenkins.id
     mount_target_id = aws_efs_mount_target.jenkins.id
     uid = "1000"
   }
