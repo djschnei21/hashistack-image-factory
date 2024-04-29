@@ -34,11 +34,11 @@ job "jenkins" {
     task "jenkins" {
       driver = "docker"
 
-      // volume_mount {
-      //   volume      = "jenkins_home"
-      //   destination = "/var/jenkins_home"
-      //   read_only   = false
-      // }
+      volume_mount {
+        volume      = "jenkins_home"
+        destination = "/var/jenkins_home/shared"
+        read_only   = false
+      }
 
       config {
         image = "jenkins/jenkins:latest"
