@@ -47,6 +47,17 @@ data "terraform_remote_state" "nomad_cluster" {
   }
 }
 
+data "terraform_remote_state" "network" {
+  backend = "remote"
+
+  config = {
+    organization = var.tfc_organization
+    workspaces = {
+      name = "1_network"
+    }
+  }
+}
+
 provider "vault" {}
 
 data "vault_kv_secret_v2" "bootstrap" {
@@ -70,8 +81,9 @@ resource "aws_efs_file_system" "jenkins" {
 }
 
 resource "aws_efs_mount_target" "jenkins" {
+  for_each = data.terraform_remote_state.network.outputs.subnet_ids
   file_system_id  = aws_efs_file_system.jenkins.id
-  subnet_id       = "subnet-0436d65f854f77ac6"  // replace with your subnet id
+  subnet_id       = each.value  
   security_groups = ["sg-08d973af47615a208"] // replace with your security group
 }
 
