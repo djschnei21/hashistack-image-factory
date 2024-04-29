@@ -17,11 +17,6 @@ job "jenkins" {
 
         attachment_mode = "file-system"
         access_mode     = "multi-node-multi-writer"
-
-        mount_options {
-            uid = "1000"
-            gid = "1000"
-        }
     }
 
     network {

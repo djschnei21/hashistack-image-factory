@@ -92,6 +92,12 @@ resource "nomad_csi_volume_registration" "jenkins" {
     access_mode     = "multi-node-multi-writer"
     attachment_mode = "file-system"
   }
+
+  parameters = {
+    file_system_id = aws_efs_file_system.jenkins.id
+    mount_target_id = aws_efs_mount_target.jenkins.id
+    uid = "1000"
+  }
 }
 
 resource "nomad_job" "jenkins" {
