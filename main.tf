@@ -81,7 +81,7 @@ resource "aws_efs_file_system" "jenkins" {
 }
 
 resource "aws_efs_mount_target" "jenkins" {
-  for_each = data.terraform_remote_state.network.outputs.subnet_ids
+  for_each = tolist(data.terraform_remote_state.network.outputs.subnet_ids)
   file_system_id  = aws_efs_file_system.jenkins.id
   subnet_id       = each.value  
   security_groups = ["sg-08d973af47615a208"] // replace with your security group
