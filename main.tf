@@ -53,7 +53,7 @@ data "terraform_remote_state" "network" {
   config = {
     organization = var.tfc_organization
     workspaces = {
-      name = "1_network"
+      name = "1_networking"
     }
   }
 }
