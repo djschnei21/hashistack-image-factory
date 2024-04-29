@@ -93,7 +93,7 @@ data "nomad_plugin" "efs" {
 }
 
 resource "nomad_csi_volume_registration" "jenkins" {
-  depends_on = [data.nomad_plugin.efs]
+  depends_on = [data.nomad_plugin.efs, aws_efs_file_system.jenkins, aws_efs_mount_target.jenkins]
 
   plugin_id   = "aws-efs0"
   volume_id   = "jenkins_volume"
@@ -106,7 +106,9 @@ resource "nomad_csi_volume_registration" "jenkins" {
   }
 
   parameters = {
+    provisioningMode = "efs-ap"
     uid = "1000"
+    fileSystemId = aws_efs_file_system.jenkins.id
   }
 }
 
