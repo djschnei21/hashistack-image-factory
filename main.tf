@@ -110,6 +110,10 @@ resource "nomad_csi_volume_registration" "jenkins" {
     OwnerUid = "1000"
     OwnerGid = "1000"
     fileSystemId = aws_efs_file_system.jenkins.id
+    directoryPerms: "755"
+    gidRangeStart: "1000" # optional
+    gidRangeEnd: "1000" # optional
+    basePath: "/dynamic_provisioning" # optional
   }
 }
 
