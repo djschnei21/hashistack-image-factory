@@ -107,11 +107,9 @@ resource "nomad_csi_volume_registration" "jenkins" {
 
   parameters = {
     provisioningMode = "efs-ap"
-    OwnerUid = "1000"
-    OwnerGid = "1000"
+    directoryPerms = "755"
     gid      = "1000"
     uid      = "1000"
-    fileSystemId = aws_efs_file_system.jenkins.id
   }
 }
 
