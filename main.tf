@@ -108,8 +108,10 @@ resource "nomad_csi_volume_registration" "jenkins" {
   parameters = {
     provisioningMode = "efs-ap"
     directoryPerms = "755"
+    fileSystemId   = aws_efs_file_system.jenkins.id
     gid      = "1000"
     uid      = "1000"
+    basePath = "/jenkins"
   }
 }
 
