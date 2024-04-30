@@ -17,15 +17,6 @@ job "jenkins" {
 
         attachment_mode = "file-system"
         access_mode     = "multi-node-multi-writer"
-
-        parameters  {
-          provisioningMode = "efs-ap"
-          OwnerUid = "1000"
-          OwnerGid = "1000"
-          gid      = "1000"
-          uid      = "1000"
-          fileSystemId = aws_efs_file_system.jenkins.id
-        }
     }
 
     network {

@@ -109,11 +109,9 @@ resource "nomad_csi_volume_registration" "jenkins" {
     provisioningMode = "efs-ap"
     OwnerUid = "1000"
     OwnerGid = "1000"
+    gid      = "1000"
+    uid      = "1000"
     fileSystemId = aws_efs_file_system.jenkins.id
-    directoryPerms: "755"
-    gidRangeStart: "1000" # optional
-    gidRangeEnd: "1000" # optional
-    basePath: "/dynamic_provisioning" # optional
   }
 }
 
