@@ -98,20 +98,11 @@ resource "nomad_csi_volume_registration" "jenkins" {
   plugin_id   = "aws-efs0"
   volume_id   = "jenkins_volume"
   name        = "jenkins_volume"
-  external_id = aws_efs_file_system.jenkins.id
+  external_id = "${aws_efs_file_system.jenkins.id}::fsap-014bf98175a680cdb"
 
   capability {
     access_mode     = "multi-node-multi-writer"
     attachment_mode = "file-system"
-  }
-
-  parameters = {
-    provisioningMode = "efs-ap"
-    directoryPerms = "755"
-    fileSystemId   = aws_efs_file_system.jenkins.id
-    gid      = "1000"
-    uid      = "1000"
-    basePath = "/jenkins"
   }
 }
 
