@@ -70,58 +70,58 @@ provider "nomad" {
   secret_id = data.vault_kv_secret_v2.bootstrap.data["SecretID"]
 }
 
-# resource "aws_efs_file_system" "jenkins" {
-#   creation_token = "jenkins"
-#   encrypted      = true
+resource "aws_efs_file_system" "jenkins" {
+  creation_token = "jenkins"
+  encrypted      = true
 
 
-#   tags = {
-#     Name = "Jenkins"
-#   }
-# }
+  tags = {
+    Name = "Jenkins"
+  }
+}
 
-# resource "aws_efs_mount_target" "jenkins" {
-#   for_each = toset(data.terraform_remote_state.network.outputs.subnet_ids)
-#   file_system_id  = aws_efs_file_system.jenkins.id
-#   subnet_id       = each.value  
-#   security_groups = ["sg-08d973af47615a208"] // replace with your security group
-# }
+resource "aws_efs_mount_target" "jenkins" {
+  for_each = toset(data.terraform_remote_state.network.outputs.subnet_ids)
+  file_system_id  = aws_efs_file_system.jenkins.id
+  subnet_id       = each.value  
+  security_groups = ["sg-08d973af47615a208"] // replace with your security group
+}
 
-# data "nomad_plugin" "efs" {
-#   plugin_id        = "aws-efs0"
-#   wait_for_healthy = true
-# }
+data "nomad_plugin" "efs" {
+  plugin_id        = "aws-efs0"
+  wait_for_healthy = true
+}
 
-# resource "nomad_csi_volume_registration" "jenkins" {
-#   depends_on = [data.nomad_plugin.efs, aws_efs_file_system.jenkins, aws_efs_mount_target.jenkins]
+resource "nomad_csi_volume_registration" "jenkins" {
+  depends_on = [data.nomad_plugin.efs, aws_efs_file_system.jenkins, aws_efs_mount_target.jenkins]
 
-#   plugin_id   = "aws-efs0"
-#   volume_id   = "jenkins_volume"
-#   name        = "jenkins_volume"
-#   external_id = aws_efs_file_system.jenkins.id
+  plugin_id   = "aws-efs0"
+  volume_id   = "jenkins_volume"
+  name        = "jenkins_volume"
+  external_id = aws_efs_file_system.jenkins.id
 
-#   capability {
-#     access_mode     = "multi-node-multi-writer"
-#     attachment_mode = "file-system"
-#   }
+  capability {
+    access_mode     = "multi-node-multi-writer"
+    attachment_mode = "file-system"
+  }
 
-#   parameters = {
-#     provisioningMode = "efs-ap"
-#     directoryPerms = "755"
-#     fileSystemId   = aws_efs_file_system.jenkins.id
-#     gid      = "1000"
-#     uid      = "1000"
-#   }
-# }
+  parameters = {
+    provisioningMode = "efs-ap"
+    directoryPerms = "755"
+    fileSystemId   = aws_efs_file_system.jenkins.id
+    gid      = "1000"
+    uid      = "1000"
+  }
+}
 
 resource "nomad_job" "jenkins" {
   jobspec = file("${path.module}/jenkins.hcl")
 
-  # hcl2 {
-  #   vars = {
-  #     jenkins_efs = nomad_csi_volume_registration.jenkins.volume_id
-  #   }
-  # }
+  hcl2 {
+    vars = {
+      jenkins_efs = nomad_csi_volume_registration.jenkins.volume_id
+    }
+  }
 }
 
 
