@@ -11,9 +11,12 @@ job "jenkins" {
     count = 1
 
     volume "jenkins_home" {
-        type      = "host"
+        type      = "csi"
         read_only = false
-        source    = "jenkins"
+        source    = "jenkins_volume"
+
+        attachment_mode = "file-system"
+        access_mode     = "multi-node-multi-writer"
     }
 
     network {
