@@ -38,7 +38,7 @@ job "jenkins" {
       }
 
       config {
-        image = "jenkins/jenkins:latest"
+        image = "jenkins/jenkins:lts"
       }
 
       resources {
