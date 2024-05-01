@@ -114,6 +114,12 @@ EOF
       template {
         data = <<EOF
 jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+       - id: test  
+         password: password
   agentProtocols:
   - "JNLP4-connect"
   - "Ping"
@@ -176,6 +182,9 @@ jenkins:
       tlsEnabled: false
       workerTimeout: 1
   numExecutors: 0
+unclassified:
+  location:
+    url: http://{{ env "attr.unique.network.ip-address" }}:8080/
 jobs:
   - script: >
       job('nomad') {
