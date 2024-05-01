@@ -49,6 +49,7 @@ job "jenkins" {
       service {
         name = "jenkins"
         port = "http"
+        address = "${attr.unique.platform.aws.public-ipv4}"
 
         check {
           type     = "tcp"
