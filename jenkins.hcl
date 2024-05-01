@@ -28,6 +28,32 @@ job "jenkins" {
         }
     }
 
+    task "chown" {
+      lifecycle {
+        hook    = "prestart"
+        sidecar = false
+      }
+
+      volume_mount {
+        volume      = "jenkins_home"
+        destination = "/var/jenkins_home"
+        read_only   = false
+      }
+
+      driver = "docker"
+
+      config {
+        image   = "busybox:stable"
+        command = "sh"
+        args    = ["-c", "chown -R 1000:1000 /var/jenkins_home"]
+      }
+
+      resources {
+        cpu    = 200
+        memory = 128
+      }
+    }
+
     task "jenkins" {
       driver = "docker"
 
