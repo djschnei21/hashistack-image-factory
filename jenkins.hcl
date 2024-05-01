@@ -190,7 +190,7 @@ EOF
       }
 
       env {
-        java_opts="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
+        JAVA_OPTS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
       }
 
       resources {
