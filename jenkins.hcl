@@ -1,6 +1,6 @@
-variable "jenkins_efs" {
-  description = "EFS volume to store Jenkins data"
-}
+// variable "jenkins_efs" {
+//   description = "EFS volume to store Jenkins data"
+// }
 
 job "jenkins" {
   datacenters = ["dc1"]
@@ -11,12 +11,9 @@ job "jenkins" {
     count = 1
 
     volume "jenkins_home" {
-        type      = "csi"
+        type      = "host"
         read_only = false
-        source    = var.jenkins_efs
-
-        attachment_mode = "file-system"
-        access_mode     = "multi-node-multi-writer"
+        source    = "jenkins"
     }
 
     network {
@@ -36,7 +33,7 @@ job "jenkins" {
 
       volume_mount {
         volume      = "jenkins_home"
-        destination = "/var/jenkins_home/shared"
+        destination = "/var/jenkins_home"
         read_only   = false
       }
 
