@@ -57,6 +57,44 @@ job "jenkins" {
       }
     }
 
+    task "install-plugins" {
+      driver = "docker"
+      volume_mount {
+        volume      = "jenkins_home"
+        destination = "/var/jenkins_home"
+        read_only   = false
+      }
+      config {
+        image   = "jenkins/jenkins:latest"
+        command = "jenkins-plugin-cli"
+        args    = ["-f", "/var/jenkins_home/plugins.txt", "--plugin-download-directory", "/var/jenkins_home/plugins/"]
+        volumes = [
+          "local/plugins.txt:/var/jenkins_home/plugins.txt",
+        ]
+      }
+    
+      lifecycle {
+        hook    = "prestart"
+        sidecar = false
+      }
+
+      template {
+        data = <<EOF
+configuration-as-code
+job-dsl
+nomad
+hashicorp-vault-plugin
+EOF
+        destination   = "local/plugins.txt"
+        change_mode   = "noop"
+      }
+
+      resources {
+        cpu    = 500
+        memory = 1024
+      }
+    }
+
     task "jenkins" {
       driver = "docker"
 
@@ -68,11 +106,96 @@ job "jenkins" {
 
       config {
         image = "jenkins/jenkins:latest"
+        volumes = [
+          "local/jasc.yaml:/var/jenkins_home/jenkins.yaml",
+        ]
+      }
+
+      template {
+        data = <<EOF
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  clouds:
+  - nomad:
+      name: "nomad"
+      nomadUrl: "http://{{ env "attr.unique.network.ip-address" }}:4646"
+      prune: true
+      templates:
+      - idleTerminationInMinutes: 10
+        jobTemplate: |-
+          {
+            "Job": {
+              "Region": "global",
+              "ID": "%WORKER_NAME%",
+              "Type": "batch",
+              "Datacenters": [
+                "dc1"
+              ],
+              "TaskGroups": [
+                {
+                  "Name": "jenkins-worker-taskgroup",
+                  "Count": 1,
+                  "RestartPolicy": {
+                    "Attempts": 0,
+                    "Interval": 10000000000,
+                    "Mode": "fail",
+                    "Delay": 1000000000
+                  },
+                  "Tasks": [
+                    {
+                      "Name": "jenkins-worker",
+                      "Driver": "docker",
+                      "Config": {
+                        "image": "jenkins/inbound-agent"
+                      },
+                      "Env": {
+                        "JENKINS_URL": "http://{{ env "NOMAD_ADDR_http" }}",
+                        "JENKINS_AGENT_NAME": "%WORKER_NAME%",
+                        "JENKINS_SECRET": "%WORKER_SECRET%",
+                        "JENKINS_TUNNEL": "{{ env "NOMAD_ADDR_jnlp" }}"
+                      },
+                      "Resources": {
+                        "CPU": 500,
+                        "MemoryMB": 256
+                      }
+                    }
+                  ],
+                  "EphemeralDisk": {
+                    "SizeMB": 300
+                  }
+                }
+              ]
+            }
+          }
+        labels: "nomad"
+        numExecutors: 1
+        prefix: "jenkins"
+        reusable: true
+      tlsEnabled: false
+      workerTimeout: 1
+  numExecutors: 0
+jobs:
+  - script: >
+      job('nomad') {
+        label('nomad')
+        steps {
+            shell('whoami')
+        }
+      }
+EOF
+        change_mode   = "noop"
+        destination   = "local/jasc.yaml"
+      }
+
+      env {
+        "java_opts": "-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
       }
 
       resources {
         cpu    = 500
-        memory = 512
+        memory = 1024
       }
 
       service {
