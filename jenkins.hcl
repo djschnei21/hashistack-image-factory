@@ -10,6 +10,12 @@ job "jenkins" {
   group "jenkins" {
     count = 1
 
+    volume "jenkins_home" {
+        type      = "host"
+        read_only = false
+        source    = "jenkins"
+    }
+
     network {
         mode = "bridge"
         port "http" {
@@ -24,6 +30,12 @@ job "jenkins" {
 
     task "jenkins" {
       driver = "docker"
+
+      volume_mount {
+        volume      = "jenkins_home"
+        destination = "/var/jenkins_home"
+        read_only   = false
+      }
 
       config {
         image = "jenkins/jenkins:latest"
