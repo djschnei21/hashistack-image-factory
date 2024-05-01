@@ -1,6 +1,6 @@
-// variable "jenkins_efs" {
-//   description = "EFS volume to store Jenkins data"
-// }
+variable "jenkins_efs" {
+  description = "EFS volume to store Jenkins data"
+}
 
 job "jenkins" {
   datacenters = ["dc1"]
