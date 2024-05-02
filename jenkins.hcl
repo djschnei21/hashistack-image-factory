@@ -119,6 +119,7 @@ jenkins:
   - nomad:
       name: "nomad"
       nomadUrl: "http://{{ env "attr.unique.network.ip-address" }}:4646"
+      nomadToken
       prune: true
       templates:
       - idleTerminationInMinutes: 10
@@ -144,16 +145,31 @@ jenkins:
                   },
                   "Tasks": [
                     {
-                      "Name": "jenkins-worker",
+                      "Name": "jenkins-worker-jnlp",
                       "Driver": "docker",
                       "Config": {
-                        "image": "jenkins/inbound-agent"
+                        "image": "jenkins/inbound-agent:latest"
                       },
                       "Env": {
                         "JENKINS_URL": "http://{{ env "NOMAD_ADDR_http" }}",
                         "JENKINS_AGENT_NAME": "%WORKER_NAME%",
                         "JENKINS_SECRET": "%WORKER_SECRET%",
                         "JENKINS_TUNNEL": "{{ env "NOMAD_ADDR_jnlp" }}"
+                      },
+                      "Resources": {
+                        "CPU": 500,
+                        "MemoryMB": 256
+                      }
+                    }
+                  ],
+                  "EphemeralDisk": {
+                    "SizeMB": 300
+                  },
+                  {
+                      "Name": "jenkins-worker-packer",
+                      "Driver": "docker",
+                      "Config": {
+                        "image": "hashicorp/packer:latest"
                       },
                       "Resources": {
                         "CPU": 500,
