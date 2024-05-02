@@ -199,7 +199,7 @@ EOF
       }
 
       env {
-        JAVA_OPTS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
+        JAVA_OPTS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -DJENKINS_HOME=/var/jenkins_home/"
       }
 
       resources {
