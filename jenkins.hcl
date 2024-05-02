@@ -187,9 +187,9 @@ EOF
         destination   = "local/jasc.yaml"
       }
 
-      // env {
-      //   JAVA_OPTS="-Djava.awt.headless=true"
-      // }
+      env {
+        JAVA_OPTS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
+      }
 
       resources {
         cpu    = 500
