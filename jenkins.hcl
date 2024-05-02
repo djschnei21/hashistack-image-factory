@@ -148,6 +148,9 @@ jenkins:
                     {
                       "Name": "jenkins-worker-jnlp",
                       "Driver": "docker",
+                      "Vault": {
+                        "Policies": ["nomad"]
+                      },
                       "Config": {
                         "image": "djs21/jenkins-agent-packer"
                       },
@@ -172,7 +175,7 @@ jenkins:
           }
         labels: "nomad"
         numExecutors: 1
-        prefix: "jenkins"
+        prefix: "jenkins-agent"
         reusable: true
       tlsEnabled: false
       workerTimeout: 1
