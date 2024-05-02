@@ -148,25 +148,13 @@ jenkins:
                       "Name": "jenkins-worker-jnlp",
                       "Driver": "docker",
                       "Config": {
-                        "image": "jenkins/inbound-agent:latest"
+                        "image": "djs21/jenkins-agent-packer"
                       },
                       "Env": {
                         "JENKINS_URL": "http://{{ env "NOMAD_ADDR_http" }}",
                         "JENKINS_AGENT_NAME": "%WORKER_NAME%",
                         "JENKINS_SECRET": "%WORKER_SECRET%",
                         "JENKINS_TUNNEL": "{{ env "NOMAD_ADDR_jnlp" }}"
-                      },
-                      "Resources": {
-                        "CPU": 500,
-                        "MemoryMB": 256
-                      }
-                    },
-                    {
-                      "Name": "jenkins-worker-packer",
-                      "Driver": "docker",
-                      "Config": {
-                        "image": "hashicorp/packer:latest",
-                        "args":  ["-version && sleep "]
                       },
                       "Resources": {
                         "CPU": 500,
@@ -194,6 +182,7 @@ jobs:
         label('nomad')
         steps {
             shell('whoami')
+            shell('packer --version')
         }
       }
 EOF
