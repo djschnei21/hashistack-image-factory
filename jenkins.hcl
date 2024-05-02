@@ -114,12 +114,6 @@ EOF
       template {
         data = <<EOF
 jenkins:
-  securityRealm:
-    local:
-      allowsSignup: false
-      users:
-       - id: test  
-         password: password
   agentProtocols:
   - "JNLP4-connect"
   - "Ping"
@@ -199,7 +193,7 @@ EOF
       }
 
       env {
-        JAVA_OPTS="-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -DJENKINS_HOME=/var/jenkins_home/"
+        JAVA_OPTS="-Djava.awt.headless=true"
       }
 
       resources {
