@@ -20,15 +20,12 @@ job "jenkins" {
     }
 
     network {
-        mode = "bridge"
-        port "http" {
-            static = 8080
-            to     = 8080
-        }
-        port "jnlp" {
-            static = 51000
-            to     = 51000
-        }
+      port "http" {
+        to = 8080
+      }
+      port "jnlp" {
+        to = 50000
+      }
     }
 
     task "chown" {
