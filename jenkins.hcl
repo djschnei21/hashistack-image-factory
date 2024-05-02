@@ -128,7 +128,7 @@ jenkins:
               "Region": "global",
               "ID": "%WORKER_NAME%",
               "Type": "batch",
-              "NodePool": "x86"
+              "NodePool": "x86",
               "Datacenters": [
                 "dc1"
               ],
