@@ -165,6 +165,7 @@ jenkins:
                       "Driver": "docker",
                       "Config": {
                         "image": "hashicorp/packer:latest"
+                        "args":  ["-version"]
                       },
                       "Resources": {
                         "CPU": 500,
