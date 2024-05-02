@@ -119,6 +119,7 @@ jenkins:
   - nomad:
       name: "nomad"
       nomadUrl: "http://{{ env "attr.unique.network.ip-address" }}:4646"
+      nomadACLCredentialsId: "687baaad-fa2d-49c8-8c11-ab0bf99f1f94"
       prune: true
       templates:
       - idleTerminationInMinutes: 10
@@ -164,8 +165,8 @@ jenkins:
                       "Name": "jenkins-worker-packer",
                       "Driver": "docker",
                       "Config": {
-                        "image": "hashicorp/packer:latest"
-                        "args":  ["-version"]
+                        "image": "hashicorp/packer:latest",
+                        "args":  ["-version && sleep "]
                       },
                       "Resources": {
                         "CPU": 500,
