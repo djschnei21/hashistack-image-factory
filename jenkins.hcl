@@ -119,7 +119,6 @@ jenkins:
   - nomad:
       name: "nomad"
       nomadUrl: "http://{{ env "attr.unique.network.ip-address" }}:4646"
-      nomadToken
       prune: true
       templates:
       - idleTerminationInMinutes: 10
