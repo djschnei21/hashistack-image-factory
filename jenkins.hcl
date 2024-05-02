@@ -20,6 +20,7 @@ job "jenkins" {
     }
 
     network {
+      mode = "bridge"
       port "http" {
         to = 8080
         static = 8080
