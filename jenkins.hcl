@@ -119,6 +119,7 @@ jenkins:
   - nomad:
       name: "nomad"
       nomadUrl: "http://{{ env "attr.unique.network.ip-address" }}:4646"
+      nomadAcl: "Secret text"
       prune: true
       templates:
       - idleTerminationInMinutes: 10
@@ -159,12 +160,8 @@ jenkins:
                         "CPU": 500,
                         "MemoryMB": 256
                       }
-                    }
-                  ],
-                  "EphemeralDisk": {
-                    "SizeMB": 300
-                  },
-                  {
+                    },
+                    {
                       "Name": "jenkins-worker-packer",
                       "Driver": "docker",
                       "Config": {
