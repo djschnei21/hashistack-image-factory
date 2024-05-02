@@ -82,6 +82,7 @@ configuration-as-code
 job-dsl
 nomad
 hashicorp-vault-plugin
+git
 EOF
         destination   = "local/plugins.txt"
         change_mode   = "noop"
@@ -178,7 +179,7 @@ jenkins:
   numExecutors: 0
 jobs:
   - script: >
-      job('nomad') {
+      job('packer-build-factory') {
         label('nomad')
         steps {
             shell('whoami')
