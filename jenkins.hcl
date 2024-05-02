@@ -22,9 +22,11 @@ job "jenkins" {
     network {
       port "http" {
         to = 8080
+        static = 8080
       }
       port "jnlp" {
         to = 50000
+        static = 50000
       }
     }
 
