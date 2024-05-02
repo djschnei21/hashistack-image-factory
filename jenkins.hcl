@@ -186,9 +186,9 @@ EOF
         destination   = "local/jasc.yaml"
       }
 
-      env {
-        JAVA_OPTS="-Djava.awt.headless=true"
-      }
+      // env {
+      //   JAVA_OPTS="-Djava.awt.headless=true"
+      // }
 
       resources {
         cpu    = 500
