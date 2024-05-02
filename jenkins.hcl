@@ -173,9 +173,6 @@ jenkins:
       tlsEnabled: false
       workerTimeout: 1
   numExecutors: 0
-unclassified:
-  location:
-    url: http://{{ env "attr.unique.network.ip-address" }}:8080/
 jobs:
   - script: >
       job('nomad') {
