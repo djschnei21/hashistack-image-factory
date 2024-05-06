@@ -33,7 +33,8 @@ source "amazon-ebs" "amd" {
 source "amazon-ebs" "arm" {
   region                      = var.region
   subnet_id                   = var.subnet_id
-  associate_public_ip_address = true
+  associate_public_ip_address = false
+  ssh_interface = "private_ip"
   source_ami_filter {
     filters = {
       name                = "ubuntu/images/hvm-ssd-gp3/ubuntu-mantic-23.10-arm64-server-*"
