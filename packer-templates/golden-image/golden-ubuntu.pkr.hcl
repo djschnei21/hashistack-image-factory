@@ -74,8 +74,8 @@ source "azure-arm" "golden-ubuntu" {
   managed_image_name                = "golden-ubuntu-{{timestamp}}"
   os_type                           = "Linux"
   image_publisher                   = "Canonical"
-  image_offer                       = "UbuntuServer"
-  image_sku                         = "23.10"
+  image_offer                       = "0001-com-ubuntu-server-mantic"
+  image_sku                         = "23_10-ARM"
 
   build_resource_group_name         = var.azure_resource_group  # Existing resource group for VM build
   managed_image_resource_group_name = var.azure_resource_group  # Same group for storing the managed image
