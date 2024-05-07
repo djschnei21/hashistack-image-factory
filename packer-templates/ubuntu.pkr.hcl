@@ -1,3 +1,12 @@
+packer {
+  required_plugins {
+    amazon = {
+      source  = "github.com/hashicorp/amazon"
+      version = "~> 1"
+    }
+  }
+}
+
 variable "subnet_id" {
   type = string
 }
@@ -34,6 +43,7 @@ source "amazon-ebs" "arm" {
   region                      = var.region
   subnet_id                   = var.subnet_id
   associate_public_ip_address = true
+  temporary_key_pair_type = "ed25519"
   source_ami_filter {
     filters = {
       name                = "ubuntu/images/hvm-ssd-gp3/ubuntu-mantic-23.10-arm64-server-*"
