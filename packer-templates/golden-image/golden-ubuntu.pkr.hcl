@@ -68,26 +68,27 @@ source "amazon-ebs" "golden-ubuntu" {
 }
 
 source "azure-arm" "golden-ubuntu" {
-  build_resource_group_name         = var.azure_resource_group
   subscription_id                   = var.azure_subscription_id
   client_id                         = var.azure_client_id
   client_secret                     = var.azure_client_secret
   managed_image_name                = "golden-ubuntu-{{timestamp}}"
+  managed_image_resource_group_name = var.azure_resource_group
   os_type                           = "Linux"
   image_publisher                   = "Canonical"
   image_offer                       = "UbuntuServer"
   image_sku                         = "23.10"
-
-  location         = var.azure_location
-  vm_size          = "Standard_B1s"
-
-  communicator     = "ssh"
-  ssh_username     = "ubuntu"
-
+  
+  location                          = var.azure_location
+  vm_size                           = "Standard_B1s"
+  
+  communicator                      = "ssh"
+  ssh_username                      = "ubuntu"
+  
   azure_tags = {
     timestamp = "{{timestamp}}"
   }
 }
+
 
 
 build {
