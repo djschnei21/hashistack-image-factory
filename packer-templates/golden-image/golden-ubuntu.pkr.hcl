@@ -72,22 +72,24 @@ source "azure-arm" "golden-ubuntu" {
   client_id                         = var.azure_client_id
   client_secret                     = var.azure_client_secret
   managed_image_name                = "golden-ubuntu-{{timestamp}}"
-  managed_image_resource_group_name = var.azure_resource_group
   os_type                           = "Linux"
   image_publisher                   = "Canonical"
   image_offer                       = "UbuntuServer"
   image_sku                         = "23.10"
-  
+
+  build_resource_group_name         = var.azure_resource_group  # Existing resource group for VM build
+  managed_image_resource_group_name = var.azure_resource_group  # Same group for storing the managed image
+
   location                          = var.azure_location
   vm_size                           = "Standard_B1s"
-  
   communicator                      = "ssh"
   ssh_username                      = "ubuntu"
-  
+
   azure_tags = {
     timestamp = "{{timestamp}}"
   }
 }
+
 
 
 
