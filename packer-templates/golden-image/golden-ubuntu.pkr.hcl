@@ -7,18 +7,19 @@ packer {
   }
 }
 
-variable "subnet_id" {
+variable "aws_subnet_id" {
   type = string
+  default = "subnet-66ca051b"
 }
 
-variable "region" {
+variable "aws_region" {
   type    = string
   default = "us-east-2"
 }
 
 source "amazon-ebs" "aws-golden-ubuntu" {
-  region                      = var.region
-  subnet_id                   = var.subnet_id
+  region                      = var.aws_region
+  subnet_id                   = var.aws_subnet_id
   associate_public_ip_address = true
   source_ami_filter {
     filters = {
