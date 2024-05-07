@@ -29,7 +29,7 @@ source "amazon-ebs" "amd" {
     owners      = ["099720109477"] # Canonical
     most_recent = true
   }
-  instance_type = "t3a.medium"
+  instance_type = "t3a.micro"
   ssh_username  = "ubuntu"
   ami_name      = "amd64-{{timestamp}}"
   tags = {
@@ -53,7 +53,7 @@ source "amazon-ebs" "arm" {
     owners      = ["099720109477"] # Canonical
     most_recent = true
   }
-  instance_type = "t4g.medium"
+  instance_type = "t4g.micro"
   ssh_username  = "ubuntu"
   ami_name      = "arm64-{{timestamp}}"
   tags = {
