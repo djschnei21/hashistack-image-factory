@@ -80,7 +80,6 @@ source "azure-arm" "golden-ubuntu" {
   build_resource_group_name         = var.azure_resource_group  # Existing resource group for VM build
   managed_image_resource_group_name = var.azure_resource_group  # Same group for storing the managed image
 
-  location                          = var.azure_location
   vm_size                           = "Standard_B1s"
   communicator                      = "ssh"
   ssh_username                      = "ubuntu"
