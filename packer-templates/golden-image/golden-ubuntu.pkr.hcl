@@ -31,6 +31,21 @@ variable "azure_resource_group" {
   default = "azure-lab"
 }
 
+variable "azure_subscription_id" {
+  type = string
+  default = "fd26d62d-dc30-4fe7-b18f-c590d20391a9"
+}
+
+variable "azure_client_id" {
+  type = string
+  default = null
+}
+
+variable "azure_client_secret" {
+  type = string
+  default = null
+}
+
 source "amazon-ebs" "golden-ubuntu" {
   region                      = var.aws_region
   subnet_id                   = var.aws_subnet_id
@@ -54,6 +69,9 @@ source "amazon-ebs" "golden-ubuntu" {
 
 source "azure-arm" "golden-ubuntu" {
   managed_image_resource_group_name = var.azure_resource_group
+  subscription_id                   = var.azure_subscription_id
+  client_id                         = var.azure_client_id
+  client_secret                     = var.azure_client_secret
   managed_image_name                = "golden-ubuntu-{{timestamp}}"
   os_type                           = "Linux"
   image_publisher                   = "Canonical"
