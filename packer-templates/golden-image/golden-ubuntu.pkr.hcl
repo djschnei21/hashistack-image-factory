@@ -31,11 +31,9 @@ source "amazon-ebs" "amd" {
   }
   instance_type = "t3a.small"
   ssh_username  = "ubuntu"
-  ami_name      = "amd64-{{timestamp}}"
+  ami_name      = "golden-ubuntu"
   tags = {
     timestamp      = "{{timestamp}}"
-    consul_enabled = true
-    nomad_enabled = true
   }
 }
 
@@ -44,21 +42,21 @@ build {
     "source.amazon-ebs.amd",
   ]
 
-  // hcp_packer_registry {
-  //   bucket_name = "ubuntu-mantic-hashi"
-  //   description = "Ubuntu Mantic Minotaur with Nomad and Consul installed"
+  hcp_packer_registry {
+    bucket_name = "golden-ubuntu"
+    description = "Ubuntu Mantic Minotaur Golden Image"
 
-  //   bucket_labels = {
-  //     "os"             = "Ubuntu",
-  //     "ubuntu-version" = "23.10",
-  //   }
+    bucket_labels = {
+      "os"             = "Ubuntu",
+      "ubuntu-version" = "23.10",
+    }
 
-  //   build_labels = {
-  //     "timestamp"      = timestamp()
-  //     "consul_enabled" = true
-  //     "nomad_enabled" = true
-  //   }
-  // }
+    build_labels = {
+      "timestamp"      = timestamp()
+      "consul_enabled" = true
+      "nomad_enabled" = true
+    }
+  }
 
   provisioner "shell" {
     inline = [
