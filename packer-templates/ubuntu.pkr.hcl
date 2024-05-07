@@ -11,7 +11,6 @@ source "amazon-ebs" "amd" {
   region                      = var.region
   subnet_id                   = var.subnet_id
   associate_public_ip_address = true
-  security_group_id           = "sg-08d973af47615a208"
   source_ami_filter {
     filters = {
       name                = "ubuntu/images/hvm-ssd-gp3/ubuntu-mantic-23.10-amd64-server-*"
@@ -35,7 +34,6 @@ source "amazon-ebs" "arm" {
   region                      = var.region
   subnet_id                   = var.subnet_id
   associate_public_ip_address = true
-  security_group_id           = "sg-08d973af47615a208"
   source_ami_filter {
     filters = {
       name                = "ubuntu/images/hvm-ssd-gp3/ubuntu-mantic-23.10-arm64-server-*"
