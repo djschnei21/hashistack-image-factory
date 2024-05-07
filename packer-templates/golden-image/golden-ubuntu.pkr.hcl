@@ -16,7 +16,7 @@ variable "region" {
   default = "us-east-2"
 }
 
-source "amazon-ebs" "amd" {
+source "amazon-ebs" "aws-golden-ubuntu" {
   region                      = var.region
   subnet_id                   = var.subnet_id
   associate_public_ip_address = true
@@ -39,7 +39,7 @@ source "amazon-ebs" "amd" {
 
 build {
   sources = [
-    "source.amazon-ebs.amd",
+    "source.amazon-ebs.aws-golden-ubuntu",
   ]
 
   hcp_packer_registry {
