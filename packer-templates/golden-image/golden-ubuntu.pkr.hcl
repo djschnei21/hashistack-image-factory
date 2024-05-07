@@ -69,7 +69,6 @@ source "amazon-ebs" "golden-ubuntu" {
 
 source "azure-arm" "golden-ubuntu" {
   build_resource_group_name         = var.azure_resource_group
-  managed_image_resource_group_name = var.azure_resource_group
   subscription_id                   = var.azure_subscription_id
   client_id                         = var.azure_client_id
   client_secret                     = var.azure_client_secret
