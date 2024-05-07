@@ -89,9 +89,6 @@ source "azure-arm" "golden-ubuntu" {
   }
 }
 
-
-
-
 build {
   sources = [
     "source.amazon-ebs.golden-ubuntu",
@@ -109,8 +106,6 @@ build {
 
     build_labels = {
       "timestamp"      = timestamp()
-      "consul_enabled" = true
-      "nomad_enabled" = true
     }
   }
 
