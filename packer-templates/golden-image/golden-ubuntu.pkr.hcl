@@ -17,7 +17,17 @@ variable "aws_region" {
   default = "us-east-2"
 }
 
-source "amazon-ebs" "aws-golden-ubuntu" {
+variable "azure_location" {
+  type = string
+  default = "us-east"
+}
+
+variable "azure_resource_group" {
+  type    = string
+  default = "azure-lab"
+}
+
+source "amazon-ebs" "golden-ubuntu" {
   region                      = var.aws_region
   subnet_id                   = var.aws_subnet_id
   associate_public_ip_address = true
@@ -38,9 +48,30 @@ source "amazon-ebs" "aws-golden-ubuntu" {
   }
 }
 
+source "azure-arm" "golden-ubuntu" {
+  managed_image_resource_group_name = var.azure_resource_group
+  managed_image_name                = "golden-ubuntu-{{timestamp}}"
+  os_type                           = "Linux"
+  image_publisher                   = "Canonical"
+  image_offer                       = "UbuntuServer"
+  image_sku                         = "23.10"
+
+  location         = var.azure_location
+  vm_size          = "Standard_B1s"
+
+  communicator     = "ssh"
+  ssh_username     = "ubuntu"
+
+  azure_tags = {
+    timestamp = "{{timestamp}}"
+  }
+}
+
+
 build {
   sources = [
-    "source.amazon-ebs.aws-golden-ubuntu",
+    "source.amazon-ebs.golden-ubuntu",
+    "source.azure-arm.golden-ubuntu"
   ]
 
   hcp_packer_registry {
