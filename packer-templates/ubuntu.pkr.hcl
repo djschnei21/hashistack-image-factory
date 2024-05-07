@@ -29,32 +29,9 @@ source "amazon-ebs" "amd" {
     owners      = ["099720109477"] # Canonical
     most_recent = true
   }
-  instance_type = "t3a.micro"
+  instance_type = "t3a.small"
   ssh_username  = "ubuntu"
   ami_name      = "amd64-{{timestamp}}"
-  tags = {
-    timestamp      = "{{timestamp}}"
-    consul_enabled = true
-    nomad_enabled = true
-  }
-}
-
-source "amazon-ebs" "arm" {
-  region                      = var.region
-  subnet_id                   = var.subnet_id
-  associate_public_ip_address = true
-  source_ami_filter {
-    filters = {
-      name                = "ubuntu/images/hvm-ssd-gp3/ubuntu-mantic-23.10-arm64-server-*"
-      root-device-type    = "ebs"
-      virtualization-type = "hvm"
-    }
-    owners      = ["099720109477"] # Canonical
-    most_recent = true
-  }
-  instance_type = "t4g.micro"
-  ssh_username  = "ubuntu"
-  ami_name      = "arm64-{{timestamp}}"
   tags = {
     timestamp      = "{{timestamp}}"
     consul_enabled = true
@@ -65,7 +42,6 @@ source "amazon-ebs" "arm" {
 build {
   sources = [
     "source.amazon-ebs.amd",
-    "source.amazon-ebs.arm"
   ]
 
   // hcp_packer_registry {
