@@ -31,7 +31,7 @@ source "amazon-ebs" "aws-golden-ubuntu" {
   }
   instance_type = "t3a.small"
   ssh_username  = "ubuntu"
-  ami_name      = "golden-ubuntu"
+  ami_name      = "golden-ubuntu-{{timestamp}}"
   tags = {
     timestamp      = "{{timestamp}}"
   }
