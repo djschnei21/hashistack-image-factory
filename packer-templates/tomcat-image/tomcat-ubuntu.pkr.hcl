@@ -65,7 +65,7 @@ source "amazon-ebs" "tomcat-ubuntu" {
   region                      = var.aws_region
   subnet_id                   = var.aws_subnet_id
   associate_public_ip_address = true
-  source_ami_id               = data.hcp-packer-artifact.aws-golden-ubuntu.id
+  source_ami                  = data.hcp-packer-artifact.aws-golden-ubuntu.external_identifier
   instance_type = "t3a.small"
   ssh_username  = "ubuntu"
   ami_name      = "tomcat-ubuntu-{{timestamp}}"
@@ -80,7 +80,7 @@ source "azure-arm" "tomcat-ubuntu" {
   client_secret                     = var.azure_client_secret
   managed_image_name                = "tomcat-ubuntu-{{timestamp}}"
   os_type                           = "Linux"
-  custom_managed_image_name         = data.hcp-packer-artifact.azure-golden-ubuntu.id
+  custom_managed_image_name         = data.hcp-packer-artifact.azure-golden-ubuntu.external_identifier 
 
   build_resource_group_name         = var.azure_resource_group  # Existing resource group for VM build
   managed_image_resource_group_name = var.azure_resource_group  # Same group for storing the managed image
