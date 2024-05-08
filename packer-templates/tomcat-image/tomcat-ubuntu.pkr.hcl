@@ -53,7 +53,6 @@ data "hcp-packer-artifact" "aws-golden-ubuntu" {
   region        = "us-east-2"
 }
 
-
 data "hcp-packer-artifact" "azure-golden-ubuntu" {
   bucket_name   = "golden-ubuntu"
   channel_name  = "latest"
@@ -134,5 +133,11 @@ build {
     source = "${source.type}-${source.name}-summary.json"
     destination = "./"
     direction = "download"
+  }
+
+  provisioner "shell-local" {
+    inline = [
+      "echo ${packer.versionFingerprint} >> fingerprint.txt"
+    ]
   }
 }

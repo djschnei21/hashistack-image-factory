@@ -130,4 +130,10 @@ build {
     destination = "./"
     direction = "download"
   }
+
+  provisioner "shell-local" {
+    inline = [
+      "echo ${packer.versionFingerprint} >> fingerprint.txt"
+    ]
+  }
 }
