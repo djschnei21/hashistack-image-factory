@@ -119,13 +119,13 @@ build {
     inline = [
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
       "sudo apt install tomcat9 -y",
-      "sudo trivy rootfs --no-progress --scanners vuln --format json --output tomcat-ubuntu-scan-{{timestamp}}.json /"
+      "sudo trivy rootfs --no-progress --scanners vuln --format json --output ${source.type}-${source.name}.json /"
     ]
   }
 
   provisioner "file" {
-    source = "tomcat-ubuntu-scan-{{timestamp}}.json"
-    destination = "./tomcat-ubuntu-scan-{{timestamp}}.json"
+    source = "*.json"
+    destination = "./"
     direction = "download"
   }
 }

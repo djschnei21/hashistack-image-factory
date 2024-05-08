@@ -114,13 +114,13 @@ build {
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
       "sudo apt update && sudo apt upgrade -y",
       "sudo curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.51.1",
-      "sudo trivy rootfs --no-progress --scanners vuln --format json --output golden-ubuntu-scan-{{timestamp}}.json /"
+      "sudo trivy rootfs --no-progress --scanners vuln --format json --output ${source.type}-${source.name}.json /"
     ]
   }
 
   provisioner "file" {
-    source = "golden-ubuntu-scan-{{timestamp}}.json"
-    destination = "./golden-ubuntu-scan-{{timestamp}}.json"
+    source = "*.json"
+    destination = "./"
     direction = "download"
   }
 }
