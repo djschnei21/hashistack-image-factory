@@ -18,7 +18,7 @@ provider "aws" {}
 
 data "hcp_packer_artifact" "tomcat-ubuntu" {
   bucket_name   = "tomcat-ubuntu"
-  channel_name  = "latest"
+  channel_name  = "release"
   platform      = "aws"
   region        = "us-east-2"
 }
