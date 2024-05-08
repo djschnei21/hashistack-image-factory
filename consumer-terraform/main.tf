@@ -23,7 +23,7 @@ data "hcp_packer_artifact" "tomcat-ubuntu" {
   region        = "us-east-2"
 }
 
-resource "aws_instance" "web" {
+resource "aws_instance" "tomcat" {
   ami           = data.hcp_packer_artifact.tomcat-ubuntu.external_identifier
   instance_type = "t3.micro"
 
