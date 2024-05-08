@@ -112,8 +112,10 @@ build {
   provisioner "shell" {
     inline = [
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
-      "sudo apt update && sudo apt upgrade -y",
-      "sudo curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin",
+      "sudo apt-get install wget apt-transport-https gnupg -y",
+      "wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null",
+      "echo \"deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb generic main\" | sudo tee -a /etc/apt/sources.list.d/trivy.list",
+      "sudo apt update && sudo apt get install trivy && sudo apt upgrade -y",
       "sudo trivy rootfs --exit-code 1 --security-checks vuln --output /scan-{{timestamp}}.json"
     ]
   }
