@@ -48,14 +48,14 @@ variable "azure_client_secret" {
 
 data "hcp-packer-artifact" "aws-golden-ubuntu" {
   bucket_name   = "golden-ubuntu"
-  channel_name  = "release"
+  channel_name  = "latest"
   platform      = "aws"
   region        = "us-east-2"
 }
 
 data "hcp-packer-artifact" "azure-golden-ubuntu" {
   bucket_name   = "golden-ubuntu"
-  channel_name  = "release"
+  channel_name  = "latest"
   platform      = "azure"
   region        = "eastus"
 }
