@@ -124,12 +124,6 @@ build {
   }
 
   provisioner "file" {
-    source = "${source.type}-${source.name}.json"
-    destination = "./"
-    direction = "download"
-  }
-
-  provisioner "file" {
     source = "${source.type}-${source.name}-summary.json"
     destination = "./"
     direction = "download"
