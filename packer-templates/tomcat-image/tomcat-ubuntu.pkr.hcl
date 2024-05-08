@@ -84,7 +84,7 @@ source "azure-arm" "tomcat-ubuntu" {
   custom_managed_image_name         = data.hcp-packer-artifact.azure-golden-ubuntu.external_identifier 
 
   build_resource_group_name         = var.azure_resource_group  # Existing resource group for VM build
-  #managed_image_resource_group_name = var.azure_resource_group  # Same group for storing the managed image
+  managed_image_resource_group_name = var.azure_resource_group  # Same group for storing the managed image
 
   vm_size                           = "Standard_B1s"
   communicator                      = "ssh"
