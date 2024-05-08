@@ -112,7 +112,9 @@ build {
   provisioner "shell" {
     inline = [
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
-      "sudo apt update && sudo apt upgrade -y"
+      "sudo apt update && sudo apt upgrade -y",
+      "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin",
+      "trivy rootfs --exit-code 1 --security-checks vuln --output /scan-{{timestamp}}.json"
     ]
   }
 }
