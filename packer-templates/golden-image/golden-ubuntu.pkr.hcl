@@ -113,7 +113,7 @@ build {
     inline = [
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
       "sudo apt update && sudo apt upgrade -y",
-      "sudo curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.51.1"
+      "sudo curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.51.1",
       "sudo trivy rootfs --exit-code 1 --security-checks vuln --output /scan-{{timestamp}}.json"
     ]
   }
