@@ -81,7 +81,7 @@ source "azure-arm" "tomcat-ubuntu" {
   managed_image_name                = "tomcat-ubuntu-{{timestamp}}"
   os_type                           = "Linux"
   custom_managed_image_resource_group_name = var.azure_resource_group
-  custom_managed_image_name         = data.hcp-packer-artifact.azure-golden-ubuntu.external_identifier 
+  image_url                         = data.hcp-packer-artifact.azure-golden-ubuntu.external_identifier 
 
   build_resource_group_name         = var.azure_resource_group  # Existing resource group for VM build
   managed_image_resource_group_name = var.azure_resource_group  # Same group for storing the managed image
