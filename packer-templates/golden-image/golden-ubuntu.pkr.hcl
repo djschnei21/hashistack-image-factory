@@ -52,7 +52,7 @@ source "amazon-ebs" "golden-ubuntu" {
   associate_public_ip_address = true
   source_ami_filter {
     filters = {
-      name                = "ubuntu/images/hvm-ssd-gp3/ubuntu-mantic-23.10-amd64-server-*"
+      name                = "ubuntu/images/hvm-ssd-gp3/ubuntu-mantic-24.04-amd64-server-*"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
@@ -74,8 +74,8 @@ source "azure-arm" "golden-ubuntu" {
   managed_image_name                = "golden-ubuntu-{{timestamp}}"
   os_type                           = "Linux"
   image_publisher                   = "Canonical"
-  image_offer                       = "0001-com-ubuntu-server-mantic"
-  image_sku                         = "23_10"
+  image_offer                       = "ubuntu-24_04-lts"
+  image_sku                         = "server-gen1"
 
   build_resource_group_name         = var.azure_resource_group  # Existing resource group for VM build
   managed_image_resource_group_name = var.azure_resource_group  # Same group for storing the managed image
@@ -97,11 +97,11 @@ build {
 
   hcp_packer_registry {
     bucket_name = "golden-ubuntu"
-    description = "Ubuntu Mantic Minotaur Golden Image"
+    description = "Ubuntu Noble Numbat Golden Image"
 
     bucket_labels = {
       "os"             = "Ubuntu",
-      "ubuntu-version" = "23.10",
+      "ubuntu-version" = "24.04",
     }
 
     build_labels = {
@@ -113,7 +113,7 @@ build {
     inline = [
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
       "sudo apt update && sudo apt upgrade -y",
-      "sudo curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.51.1",
+      "curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.54.1",
       "sudo trivy rootfs --no-progress --scanners vuln --format json --output ${source.type}-${source.name}.json /",
       "cat ${source.type}-${source.name}.json | jq -r '[.Results[].Vulnerabilities[]] | group_by(.Severity) | map({key: .[0].Severity, value: length}) | from_entries' >> ${source.type}-${source.name}-summary.json"
     ]

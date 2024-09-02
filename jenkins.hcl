@@ -83,6 +83,7 @@ job-dsl
 nomad
 hashicorp-vault-plugin
 git
+pipeline-stage-view
 EOF
         destination   = "local/plugins.txt"
         change_mode   = "noop"
@@ -152,7 +153,7 @@ jenkins:
                         "Policies": ["nomad"]
                       },
                       "Config": {
-                        "image": "djs21/jenkins-agent-packer"
+                        "image": "djs21/jenkins-agent-packer:latest"
                       },
                       "Env": {
                         "JENKINS_URL": "http://{{ env "NOMAD_ADDR_http" }}",
