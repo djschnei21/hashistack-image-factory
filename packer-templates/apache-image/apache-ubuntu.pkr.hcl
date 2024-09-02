@@ -60,24 +60,24 @@ data "hcp-packer-artifact" "azure-golden-ubuntu" {
   region        = "eastus"
 }
 
-source "amazon-ebs" "tomcat-ubuntu" {
+source "amazon-ebs" "apache-ubuntu" {
   region                      = var.aws_region
   subnet_id                   = var.aws_subnet_id
   associate_public_ip_address = true
   source_ami                  = data.hcp-packer-artifact.aws-golden-ubuntu.external_identifier
   instance_type = "t3a.small"
   ssh_username  = "ubuntu"
-  ami_name      = "tomcat-ubuntu-{{timestamp}}"
+  ami_name      = "apache-ubuntu-{{timestamp}}"
   tags = {
     timestamp      = "{{timestamp}}"
   }
 }
 
-source "azure-arm" "tomcat-ubuntu" {
+source "azure-arm" "apache-ubuntu" {
   subscription_id                   = var.azure_subscription_id
   client_id                         = var.azure_client_id
   client_secret                     = var.azure_client_secret
-  managed_image_name                = "tomcat-ubuntu-{{timestamp}}"
+  managed_image_name                = "apache-ubuntu-{{timestamp}}"
   os_type                           = "Linux"
   custom_managed_image_resource_group_name = var.azure_resource_group
   custom_managed_image_name = "${split("/", data.hcp-packer-artifact.azure-golden-ubuntu.external_identifier)[length(split("/", data.hcp-packer-artifact.azure-golden-ubuntu.external_identifier)) - 1]}"
@@ -96,13 +96,13 @@ source "azure-arm" "tomcat-ubuntu" {
 
 build {
   sources = [
-    "source.amazon-ebs.tomcat-ubuntu",
-    "source.azure-arm.tomcat-ubuntu"
+    "source.amazon-ebs.apache-ubuntu",
+    "source.azure-arm.apache-ubuntu"
   ]
 
   hcp_packer_registry {
-    bucket_name = "tomcat-ubuntu"
-    description = "Ubuntu Noble Numbat Tomcat Image"
+    bucket_name = "apache-ubuntu"
+    description = "Ubuntu Noble Numbat Apache Image"
 
     bucket_labels = {
       "os"             = "Ubuntu",
@@ -117,7 +117,7 @@ build {
   provisioner "shell" {
     inline = [
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
-      "sudo apt install tomcat -y",
+      "sudo apt install httpd -y",
       "sudo trivy rootfs --no-progress --scanners vuln --format json --output ${source.type}-${source.name}.json /",
       "cat ${source.type}-${source.name}.json | jq -r '[.Results[].Vulnerabilities[]?] | group_by(.Severity) | map({key: .[0].Severity, value: length}) | from_entries' >> ${source.type}-${source.name}-summary.json"
     ]
