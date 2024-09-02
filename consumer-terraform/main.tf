@@ -18,7 +18,7 @@ provider "aws" {}
 
 data "hcp_packer_artifact" "apache-ubuntu" {
   bucket_name   = "apache-ubuntu"
-  channel_name  = "release"
+  channel_name  = "Release"
   platform      = "aws"
   region        = "us-east-2"
 }
