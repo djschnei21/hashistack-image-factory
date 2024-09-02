@@ -102,11 +102,11 @@ build {
 
   hcp_packer_registry {
     bucket_name = "tomcat-ubuntu"
-    description = "Ubuntu Mantic Minotaur Tomcat Image"
+    description = "Ubuntu Noble Numbat Tomcat Image"
 
     bucket_labels = {
       "os"             = "Ubuntu",
-      "ubuntu-version" = "23.10",
+      "ubuntu-version" = "24.04",
     }
 
     build_labels = {
@@ -117,7 +117,7 @@ build {
   provisioner "shell" {
     inline = [
       "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
-      "sudo apt install tomcat9 -y",
+      "sudo apt install tomcat -y",
       "sudo trivy rootfs --no-progress --scanners vuln --format json --output ${source.type}-${source.name}.json /",
       "cat ${source.type}-${source.name}.json | jq -r '[.Results[].Vulnerabilities[]?] | group_by(.Severity) | map({key: .[0].Severity, value: length}) | from_entries' >> ${source.type}-${source.name}-summary.json"
     ]
