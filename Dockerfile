@@ -24,3 +24,4 @@ RUN packer plugins install github.com/hashicorp/vsphere
 RUN packer plugins install github.com/hashicorp/ansible
 RUN packer plugins install github.com/hashicorp/azure
 RUN packer plugins install github.com/mondoohq/cnspec
+RUN packer plugins install github.com/hashicorp/ansible
