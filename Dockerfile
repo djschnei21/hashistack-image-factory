@@ -6,7 +6,9 @@ USER root
 RUN apk add --no-cache \
     wget \ 
     unzip \
-    jq
+    jq \
+    ansible \ 
+    python3
 
 RUN wget https://releases.hashicorp.com/packer/1.11.2/packer_1.11.2_linux_amd64.zip \
     && unzip -o packer_1.11.2_linux_amd64.zip \
