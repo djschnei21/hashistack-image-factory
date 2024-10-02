@@ -1,6 +1,19 @@
+
+# This Dockerfile sets up a Jenkins inbound agent with additional tools for HashiStack image factory.
+# It installs the following packages:
+# - wget
+# - unzip
+# - jq
+# - ansible
+# - python3
+# It also downloads and installs the following HashiCorp tools:
+# - Packer (version 1.11.2)
+# - Vault (version 1.17.6)
+# - Terraform (version 1.9.6)
+# Finally, it installs several Packer plugins for different platforms and configurations.
+
 FROM jenkins/inbound-agent:latest-alpine
 
-# Install Packer
 USER root
 
 RUN apk add --no-cache \
