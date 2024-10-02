@@ -18,6 +18,10 @@ RUN wget https://releases.hashicorp.com/vault/1.17.6/vault_1.17.6_linux_amd64.zi
     && unzip -o vault_1.17.6_linux_amd64.zip \
     && mv vault /usr/local/bin/vault
 
+RUN wget https://releases.hashicorp.com/terraform/1.9.6/terraform_1.9.6_linux_amd64.zip \
+    && unzip -o terraform_1.9.6_linux_amd64.zip \
+    && mv terraform /usr/local/bin/terraform
+
 USER jenkins
 
 RUN packer plugins install github.com/hashicorp/vsphere
